@@ -24,8 +24,17 @@ public class SceneButtons : MonoBehaviour
 
     public void ReiniciarNivel()
     {
-        string scene = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(scene);
+        string actual = SceneManager.GetActiveScene().name;
+        if (actual == escenaJuego)
+        {
+            SceneManager.LoadScene(actual);
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(escenaJuego))
+        {
+            SceneManager.LoadScene(escenaJuego);
+        }
     }
 
     public void Salir()
