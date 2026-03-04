@@ -640,6 +640,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1401103372}
   - component: {fileID: 1401103371}
+  - component: {fileID: 1401103373}
   m_Layer: 0
   m_Name: SceneButtons
   m_TagString: Untagged
@@ -676,6 +677,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1401103373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401103370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bdf18bdcec743c4ca1b043e26f53c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleSceneMenu
+  escenaJugar: SampleScene
+  escenaMenu: MainMenu
+  titulo: ZEROHOUR
+  subtitulo: Escapa antes de que llegue a 00:00
+  mostrarBotonJugar: 0
+  mostrarBotonMenu: 0
+  mostrarBotonReintentar: 0
+  mostrarBotonSalir: 1
+  mostrarRankingEnGameOver: 1
+  escenaRanking: Victory
 --- !u!1 &1692205153
 GameObject:
   m_ObjectHideFlags: 0
