@@ -115,6 +115,7 @@ public class VagabundoController : MonoBehaviour
         IntentarSalto();
         AplicarJumpCut();
         CorregirPegadoEnPared();
+        ActualizarSonidoCorrer();
 
         saltoSoltado = false;
     }
@@ -236,7 +237,7 @@ public class VagabundoController : MonoBehaviour
             }
         }
 
-        return Mathf.Abs(rb.linearVelocity.y) < 0.05f;
+        return false;
     }
 
     private static bool LayerIncluida(int layer, LayerMask mask)
@@ -292,6 +293,16 @@ public class VagabundoController : MonoBehaviour
             velX = 0f;
             rb.linearVelocity = new Vector2(velX, rb.linearVelocity.y);
         }
+    }
+
+    private void ActualizarSonidoCorrer()
+    {
+        GameManager gm = GameManager.Instance;
+        if (gm == null) return;
+
+        bool moviendose = Mathf.Abs(rb.linearVelocity.x) > 0.15f;
+        bool debeSonar = enSuelo && moviendose && !InputBloqueado() && !estaMuerto;
+        gm.SetRunSfxActivo(debeSonar);
     }
 
     private bool EstaTocandoPared(out float direccionPared)
@@ -545,5 +556,14 @@ public class VagabundoController : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireCube(posDerecha, areaDeteccion);
         Gizmos.DrawWireCube(posIzquierda, areaDeteccion);
+    }
+
+    private void OnDisable()
+    {
+        GameManager gm = GameManager.Instance;
+        if (gm != null)
+        {
+            gm.SetRunSfxActivo(false);
+        }
     }
 }
