@@ -200,13 +200,13 @@ public class BackgroundMusicPlayer : MonoBehaviour
 
         if (esMenu)
         {
-            ReproducirClipEscena(pauseMenuClip, pauseMenuResumeTime);
+            ReproducirClipEscena(pauseMenuClip, pauseMenuResumeTime, true);
             return;
         }
 
         if (esVictoria)
         {
-            ReproducirClipEscena(victoryClip, 0f);
+            ReproducirClipEscena(victoryClip, 0f, false);
             return;
         }
 
@@ -255,7 +255,7 @@ public class BackgroundMusicPlayer : MonoBehaviour
         }
     }
 
-    private void ReproducirClipEscena(AudioClip clip, float startTime)
+    private void ReproducirClipEscena(AudioClip clip, float startTime, bool loop)
     {
         if (clip == null) return;
         if (source.clip != clip)
@@ -266,7 +266,7 @@ public class BackgroundMusicPlayer : MonoBehaviour
 
         float t = Mathf.Clamp(startTime, 0f, Mathf.Max(0f, source.clip.length - 0.01f));
         source.time = t;
-        source.loop = true;
+        source.loop = loop;
         source.volume = ObtenerVolumenParaClip(source.clip);
         source.Play();
         hasPausedTime = false;
