@@ -33,6 +33,10 @@ ZeroHour está construido como un nivel autónomo y jugable con flujo completo d
 
 Incluye HUD, sistema de tiempo, llaves coleccionables, pausa funcional, ranking persistente y audio configurable por canales.
 
+## Video de gameplay
+
+- YouTube: https://youtu.be/hYiUXvoiLvY
+
 ## Características implementadas
 
 ### Jugabilidad
