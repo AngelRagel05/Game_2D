@@ -792,6 +792,16 @@ MonoBehaviour:
   mostrarRankingEnGameOver: 1
   escenaRanking: Victory
   mostrarBotonSonido: 1
+  crearMusicPlayerSiFalta: 1
+  playlistGameplay:
+  - {fileID: 8300000, guid: b47a6eae9e5ef3c48a465c457165392b, type: 3}
+  - {fileID: 8300000, guid: 2e517c2637cc1224681577ccb98fb240, type: 3}
+  - {fileID: 8300000, guid: 1b6bb16bc676c5d429c1cb0b54ebd823, type: 3}
+  - {fileID: 8300000, guid: 1555cc24d2097f242b64f5d156270c9a, type: 3}
+  clipMenuPausa: {fileID: 8300000, guid: ef25fbbc9e3a91d4aa82645bbae8d1d3, type: 3}
+  clipVictoria: {fileID: 8300000, guid: aecaf5d5e83193e4d873c20fe50ff717, type: 3}
+  volumenMusicaDefault: 0.35
+  startAtSeconds: 5
 --- !u!4 &1269249820
 Transform:
   m_ObjectHideFlags: 0
