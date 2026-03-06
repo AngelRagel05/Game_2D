@@ -37,6 +37,20 @@ Incluye HUD, sistema de tiempo, llaves coleccionables, pausa funcional, ranking 
 
 - YouTube: https://youtu.be/hYiUXvoiLvY
 
+## Bocetos del nivel
+
+### Boceto 1 - Inicio
+
+![Boceto inicio](Docs/Bocetos/Boceto_01_Inicio.svg)
+
+### Boceto 2 - Zona de plataformas
+
+![Boceto plataformas](Docs/Bocetos/Boceto_02_Plataformas.svg)
+
+### Boceto 3 - Tramo final
+
+![Boceto final](Docs/Bocetos/Boceto_03_Final.svg)
+
 ## Características implementadas
 
 ### Jugabilidad
