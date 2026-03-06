@@ -14,7 +14,7 @@ public class SimpleSceneMenu : MonoBehaviour
 
     [Header("Textos")]
     public string titulo = "ZEROHOUR";
-    public string subtitulo = "Escapa antes de que llegue a 00:00";
+    public string subtitulo = "ESCAPA LO ANTES POSIBLE";
     public bool mostrarBotonJugar = true;
     public bool mostrarBotonMenu = false;
     public bool mostrarBotonReintentar = false;
