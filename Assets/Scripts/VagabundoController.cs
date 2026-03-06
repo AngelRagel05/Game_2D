@@ -19,6 +19,9 @@ public class VagabundoController : MonoBehaviour
     [Header("Suelo")]
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
+    public float distanciaExtraSuelo = 0.08f;
+    [Range(0.05f, 0.95f)] public float normalMinimaSuelo = 0.2f;
+    [Range(0.2f, 1f)] public float anchoDeteccionSuelo = 0.75f;
     public LayerMask groundLayer;
 
     [Header("Ajustes")]
@@ -172,21 +175,73 @@ public class VagabundoController : MonoBehaviour
 
     private bool DetectarSuelo()
     {
-        if (groundCheck == null)
+        if (cuerpoCollider != null)
         {
-            return Mathf.Abs(rb.linearVelocity.y) < 0.05f;
-        }
+            ContactPoint2D[] contactos = new ContactPoint2D[16];
+            int cantidadContactos = cuerpoCollider.GetContacts(contactos);
+            for (int i = 0; i < cantidadContactos; i++)
+            {
+                ContactPoint2D c = contactos[i];
+                if (c.collider == null) continue;
+                if (!LayerIncluida(c.collider.gameObject.layer, groundLayer)) continue;
+                if (c.normal.y >= normalMinimaSuelo)
+                {
+                    return true;
+                }
+            }
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRadius, groundLayer);
-        for (int i = 0; i < hits.Length; i++)
-        {
-            if (hits[i] != null && hits[i].attachedRigidbody != rb)
+            // Fallback robusto para plataformas moviles: caja justo debajo de los pies.
+            Bounds b = cuerpoCollider.bounds;
+            float altoCaja = Mathf.Max(0.02f, distanciaExtraSuelo);
+            Vector2 size = new Vector2(b.size.x * Mathf.Clamp01(anchoDeteccionSuelo), altoCaja);
+            Vector2 center = new Vector2(b.center.x, b.min.y - (altoCaja * 0.5f) + 0.01f);
+            Collider2D hitPies = Physics2D.OverlapBox(center, size, 0f, groundLayer);
+            if (hitPies != null && hitPies.attachedRigidbody != rb)
             {
                 return true;
             }
         }
 
-        return false;
+        if (groundCheck != null)
+        {
+            Collider2D[] hits = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRadius, groundLayer);
+            for (int i = 0; i < hits.Length; i++)
+            {
+                if (hits[i] != null && hits[i].attachedRigidbody != rb)
+                {
+                    return true;
+                }
+            }
+        }
+
+        if (cuerpoCollider != null)
+        {
+            ContactFilter2D filtro = new ContactFilter2D
+            {
+                useLayerMask = true,
+                layerMask = groundLayer,
+                useTriggers = false
+            };
+
+            RaycastHit2D[] resultados = new RaycastHit2D[6];
+            float distancia = Mathf.Max(0.01f, distanciaExtraSuelo);
+            int count = cuerpoCollider.Cast(Vector2.down, filtro, resultados, distancia);
+
+            for (int i = 0; i < count; i++)
+            {
+                if (resultados[i].collider != null && resultados[i].normal.y > 0.15f)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return Mathf.Abs(rb.linearVelocity.y) < 0.05f;
+    }
+
+    private static bool LayerIncluida(int layer, LayerMask mask)
+    {
+        return (mask.value & (1 << layer)) != 0;
     }
 
     private void AplicarMovimientoHorizontal()
@@ -461,14 +516,24 @@ public class VagabundoController : MonoBehaviour
     {
         if (!mostrarDebug) return;
 
+        Collider2D c = GetComponent<Collider2D>();
+        if (c == null) return;
+
         if (groundCheck != null)
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
 
-        Collider2D c = GetComponent<Collider2D>();
-        if (c == null) return;
+        if (c != null)
+        {
+            Bounds b2 = c.bounds;
+            float altoCaja = Mathf.Max(0.02f, distanciaExtraSuelo);
+            Vector2 size2 = new Vector2(b2.size.x * Mathf.Clamp01(anchoDeteccionSuelo), altoCaja);
+            Vector2 center2 = new Vector2(b2.center.x, b2.min.y - (altoCaja * 0.5f) + 0.01f);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(center2, size2);
+        }
 
         Bounds b = c.bounds;
         float anchoDeteccion = Mathf.Max(distanciaDeteccionPared, 0.01f);
